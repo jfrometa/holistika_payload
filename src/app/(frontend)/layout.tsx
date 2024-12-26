@@ -17,9 +17,9 @@ import LayoutClient from './layout_client'; // This is the new file you'll creat
 import { Header } from '@/Header/Component';
 import { Footer } from '@/Footer/Component';
 
-
 import Footer3 from '@/app/(frontend)/components/footers/Footer3';
 import { cn } from '@/utilities/cn';
+import { Analytics } from "@vercel/analytics/react"
 
 export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),
@@ -47,14 +47,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <div className="min-h-screen flex flex-col">
             <AdminBar adminBarProps={{ preview: isEnabled }} />
             <LivePreviewListener />
-
+            <Analytics />
             <Header />
             {/* Insert the client component here */}
             <LayoutClient>
               <main className="flex-grow splash-wrapper scrollSpyLinks">{children}</main>
             </LayoutClient>
             <Footer3 />
-            <Footer />
           </div>
         </Providers>
       </body>
