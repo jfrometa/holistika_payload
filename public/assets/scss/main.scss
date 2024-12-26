@@ -1,7 +1,7 @@
 // 🛠️ 2. Import SCSS files using @use (for scss)
-@import '../scss/style.scss';
-@import '../scss/custom.scss';
-@import '../scss/splash.scss';
+@use '../scss/style.scss';
+@use '../scss/custom.scss';
+@use '../scss/splash.scss';
 
 @import '../css/vendor/bootstrap.min.css';
 
