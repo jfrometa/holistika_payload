@@ -21,6 +21,7 @@ export default function LayoutClient({ children }: LayoutClientProps) {
     // Load bootstrap and other client-only scripts
 
     if (typeof window !== 'undefined') {
+     
       import('bootstrap/dist/js/bootstrap.esm');
     }
   }, []);

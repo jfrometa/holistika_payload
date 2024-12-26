@@ -1,0 +1,4 @@
+// {
+//     "ext": "ts,tsx,js,json,ejs",
+//     "exec": "ts-node src/server.ts"
+// }
