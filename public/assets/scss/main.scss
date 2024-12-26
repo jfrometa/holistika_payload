@@ -1,0 +1,14 @@
+// 🛠️ 2. Import SCSS files using @use (for scss)
+@import '../scss/style.scss';
+@import '../scss/custom.scss';
+@import '../scss/splash.scss';
+
+@import '../css/vendor/bootstrap.min.css';
+
+// 🛠️ 1. Import external CSS files (relative paths fixed)
+@import '../css/plugins/animation.css';
+@import '../css/plugins/feature.css';
+@import '../css/plugins/magnify.min.css';
+@import '../css/plugins/slick.css';
+@import '../css/plugins/slick-theme.css';
+@import '../css/plugins/lightbox.css';
