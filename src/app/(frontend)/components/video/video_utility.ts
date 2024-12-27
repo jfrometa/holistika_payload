@@ -29,7 +29,7 @@ export class VideoAnalyticsTracker {
   private analytics: VideoAnalytics;
 
   constructor() {
-    this.startTime = Date.now();
+    this.startTime = performance.now();
     this.analytics = {
       loadTime: 0,
       bufferingEvents: 0,
@@ -41,7 +41,7 @@ export class VideoAnalyticsTracker {
   }
 
   updateLoadTime(): void {
-    this.analytics.loadTime = Date.now() - this.startTime;
+    this.analytics.loadTime = performance.now() - this.startTime;
   }
 
   incrementBuffering(): void {
@@ -99,7 +99,7 @@ export class NetworkSpeedTest {
   }
 
   async measureNetworkSpeed(): Promise<number> {
-    const now = Date.now();
+    const now = performance.now();
     if (now - this.lastTest < this.testInterval) {
       return this.lastSpeed;
     }

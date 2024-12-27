@@ -1,8 +1,19 @@
+
+'use client'
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { footerSections, socialLinks } from "@/data/footerLinks";
+
+import { useEffect, useState } from 'react';
+
 export default function Footer3() {
+  const [year, setYear] = useState(null);
+
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
+
   return (
     <>
       {/* Start Footer Area  */}
@@ -126,7 +137,7 @@ export default function Footer3() {
             <div className="col-lg-6 col-md-4 col-sm-12 col-12">
               <div className="copyright-right text-center text-lg-end">
                 <p className="copyright-text">
-                  © Doob {new Date().getFullYear()}
+                  © Doob {year || ''}
                 </p>
               </div>
             </div>

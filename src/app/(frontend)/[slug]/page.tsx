@@ -5,7 +5,7 @@ import { PayloadRedirects } from '@/components/PayloadRedirects';
 import configPromise from '@payload-config';
 import { getPayload } from 'payload';
 import { draftMode } from 'next/headers';
-import React, { cache } from 'react';
+import React, { cache, Suspense } from 'react';
 import { homeStatic } from '@/endpoints/seed/home-static';
 
 import type { Page as PageType } from '@/payload-types';
@@ -82,7 +82,7 @@ const rootPage = (
       </div>
 
       <div className="relative w-full h-screen overflow-hidden">
-        <VideoOverlay />
+           <VideoOverlay />
       </div>
 
       <Service />
@@ -121,7 +121,10 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   // // Remove this code once your website is seeded
   if (page && slug === 'home') {
-    return rootPage;
+    return (<Suspense fallback={<div>Loading...</div>}>
+       {rootPage}
+    </Suspense>)
+    
   }
 
   if (page && slug === 'portfolio') {
