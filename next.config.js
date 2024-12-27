@@ -12,7 +12,6 @@ const nextConfig = {
   experimental: {
     ppr: true,
     optimizeCss: true,
-    dynamicIO: true
   },
   images: {
     remotePatterns: [
