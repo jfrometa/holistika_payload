@@ -1,5 +1,5 @@
 import React from "react";
-
+import Image from "next/image";
 export default function Cta() {
   return (
     <div className="rainbow-callto-action rainbow-call-to-action content-wrapper rainbow-section-gap">
@@ -9,7 +9,7 @@ export default function Cta() {
             <div className="inner">
               <div className="content text-center">
                 <div className="react-image mb--20 relative">
-                  <img
+                  <Image
                     className="nextjs-svg"
                     src="\assets\images\logo\nextjs.svg"
                   />

@@ -3,6 +3,7 @@ import React from "react";
 import CircularProgress from "../common/CirculerProgress";
 import Slider from "react-slick";
 import CounterComponent from "../common/Counter";
+import Image from "next/image";
 
 export default function Services() {
   const options = {
@@ -111,7 +112,7 @@ export default function Services() {
                     </div>
                   </div>
                   <div className="image">
-                    <img
+                    <Image
                       src="/assets/images/featured-service/image-01.png"
                       alt="Women"
                     />
@@ -121,7 +122,7 @@ export default function Services() {
               <div className="col-md-6 col-sm-12 col-12">
                 <div className="single-service-box author-box">
                   <div className="image">
-                    <img
+                    <Image
                       src="/assets/images/featured-service/image-02.png"
                       alt="AWARDED"
                     />
@@ -133,7 +134,7 @@ export default function Services() {
                       </span>
                       <span className="white">Elite Author.</span>
                       <span className="icon extra-small">
-                        <img
+                        <Image
                           src="/assets/images/featured-service/arrow-bottom.svg"
                           alt="arrow"
                         />
@@ -168,7 +169,7 @@ export default function Services() {
                     <span className="dot green" />
                   </div>
                   <div className="logo">
-                    <img
+                    <Image
                       src="/assets/images/featured-service/logo.png"
                       alt=""
                     />
@@ -198,7 +199,7 @@ export default function Services() {
               <div className="col-md-6 col-12">
                 <div className="single-service-box creative-box-two">
                   <div className="image">
-                    <img
+                    <Image
                       src="/assets/images/featured-service/award.png"
                       alt="Top"
                     />
@@ -207,8 +208,8 @@ export default function Services() {
                     <span className="white">Top</span>
                     <span className="light-white ml--10">New File</span>
                   </div>
-                  <div className="icon-img">
-                    <img
+                  <div className="icon-Image">
+                    <Image
                       src="/assets/images/featured-service/themeforest.png"
                       alt="Themeforest"
                     />
@@ -217,8 +218,8 @@ export default function Services() {
               </div>
               <div className="col-md-6 col-12">
                 <div className="single-service-box creative-box-three">
-                  <div className="icon-img">
-                    <img
+                  <div className="icon-Image">
+                    <Image
                       src="/assets/images/featured-service/image-05.png"
                       alt="Top"
                     />
@@ -228,7 +229,7 @@ export default function Services() {
                     <span className="light-white">Online</span>
                   </div>
                   <div className="cart-image">
-                    <img
+                    <Image
                       src="/assets/images/featured-service/cart-icon.png"
                       alt="Cart Icon"
                     />
@@ -254,7 +255,7 @@ export default function Services() {
                     </div>
                   </div>
                   <div className="image">
-                    <img
+                    <Image
                       src="/assets/images/featured-service/image-03.png"
                       alt="Mobile-Layout"
                     />
@@ -271,7 +272,7 @@ export default function Services() {
                     </div>
                   </div>
                   <div className="image">
-                    <img
+                    <Image
                       src="/assets/images/featured-service/image-03.png"
                       alt="Mobile-Layout"
                     />
@@ -288,7 +289,7 @@ export default function Services() {
                     </div>
                   </div>
                   <div className="image">
-                    <img
+                    <Image
                       src="/assets/images/featured-service/image-03.png"
                       alt="Mobile-Layout"
                     />
@@ -305,7 +306,7 @@ export default function Services() {
                     </div>
                   </div>
                   <div className="image">
-                    <img
+                    <Image
                       src="/assets/images/featured-service/image-03.png"
                       alt="Mobile-Layout"
                     />

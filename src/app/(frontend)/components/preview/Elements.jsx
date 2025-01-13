@@ -1,5 +1,5 @@
 import React from "react";
-
+import Image from "next/image";
 export default function Elements() {
   return (
     <div className="rn-gallery-area rainbow-section-gapBottom ">
@@ -29,7 +29,7 @@ export default function Elements() {
       <div className="row mt--20 mt_sm--20">
         <div className="col-lg-12">
           <div className="thumbnai">
-            <img
+            <Image
               className="w-100"
               src="/assets/images/bg/gallery.png"
               alt="Gallery Images"

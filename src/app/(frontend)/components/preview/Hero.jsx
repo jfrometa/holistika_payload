@@ -9,7 +9,7 @@ export default function Hero() {
           <div className="col-lg-12">
             <div className="inner text-center">
               <div className="react-image mb--20 relative">
-                <img
+                <Image
                   className="nextjs-svg"
                   src="\assets\images\logo\nextjs.svg"
                 />

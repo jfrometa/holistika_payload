@@ -3,7 +3,7 @@ utlis;
 import Link from 'next/link';
 import React, { useEffect } from 'react';
 import ModeSwitcher from '../common/ModeSwitcher';
-
+import Image from "next/image";
 export default function HeaderPreview() {
   useEffect(() => {
     const links = document.querySelectorAll('.scrollSpyLinks a[href^="#"]');
@@ -39,12 +39,12 @@ export default function HeaderPreview() {
           <div className="col-lg-3 col-md-6 col-4 header-logo">
             <div className="logo">
               <Link href="/">
-                <img
+                <Image
                   className="logo-light"
                   src="/assets/images/logo/logo.png"
                   alt="Corporate Logo"
                 />
-                <img
+                <Image
                   className="logo-dark"
                   src="/assets/images/logo/logo-dark.png"
                   alt="Corporate Logo"
