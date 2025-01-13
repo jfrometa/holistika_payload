@@ -1,34 +1,22 @@
+import '@/scss/main.scss';
 
 import type { Metadata } from 'next';
-
 import { PayloadRedirects } from '@/components/PayloadRedirects';
 import configPromise from '@payload-config';
 import { getPayload } from 'payload';
 import { draftMode } from 'next/headers';
-import React, { cache, Suspense } from 'react';
-import { homeStatic } from '@/endpoints/seed/home-static';
-
+import React, { cache, Suspense } from 'react'; 
 import type { Page as PageType } from '@/payload-types';
-
 import { RenderBlocks } from '@/blocks/RenderBlocks';
 import { RenderHero } from '@/heros/RenderHero';
 import { generateMeta } from '@/utilities/generateMeta';
 import PageClient from './page.client';
-
 import Blogs from '@/ui/common/Blogs';
-import Footer3 from '@/ui/footers/Footer3';
-import Header2 from '@/ui/headers/Header2';
-
 import About from '@/ui/homes/index-international-consulting/About';
 import Facts from '@/ui/homes/index-international-consulting/Facts';
-import HeroWithVideoSlider from '@/ui/homes/index-international-consulting/HeroWithVideoSlider';
-// import BackgroundVideo from 'next-video/background-video';
-// import VideoSliderBackground from '@/components/video/background_video_slider';
 import VideoOverlay from '@/ui/video/video_overlay';
 import Portfolio from '@/ui/homes/index-international-consulting/Portfolio';
-import Pricing from '@/ui/common/Pricing3';
 import Service from '@/ui/homes/index-international-consulting/Service';
-import Topbar from '@/ui/headers/Topbar';
 
 
 interface PageParams {
@@ -134,8 +122,6 @@ export default async function Page({ params: paramsPromise }: Args) {
       </div>
     );
   }
-
-  // console.log(`slug: ${slug}  isPage ${!page}`);
 
   if (!page) {
     return <PayloadRedirects url={url} />;

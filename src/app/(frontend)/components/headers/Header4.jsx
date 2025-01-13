@@ -41,7 +41,7 @@ export default function Header4({
                 </ul>
               </nav>
               {/* Start Header Btn  */}
-              <div className="header-btn">
+              {/* <div className="header-btn">
                 <a
                   className={btnClass}
                   target="_blank"
@@ -49,7 +49,7 @@ export default function Header4({
                 >
                   BUY NOW
                 </a>
-              </div>
+              </div> */}
               {/* End Header Btn  */}
               {/* Start Mobile-Menu-Bar */}
               <div className="mobile-menu-bar ml--5 d-block d-lg-none">
