@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, memo } from 'react';
+import { useState, useEffect, useRef, memo, useCallback } from 'react';
 import BackgroundVideo from 'next-video/background-video';
 import SlideCounter from './slider-counter';
 import VideoSkeleton from './video_skeleton';
@@ -23,11 +23,14 @@ const VideoOverlay: React.FC<VideoOverlayProps> = memo(({ videos }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   // Refs
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const prevVideo = useRef<string | null>(null);
   const transitionTimeoutRef = useRef<NodeJS.Timeout>();
+  const lastTransitionTime = useRef<number>(0);
+  const checkEndingIntervalRef = useRef<NodeJS.Timer>();
 
   // Current video
   const currentVideo = videos[currentIndex];
@@ -39,32 +42,17 @@ const VideoOverlay: React.FC<VideoOverlayProps> = memo(({ videos }) => {
       if (transitionTimeoutRef.current) {
         clearTimeout(transitionTimeoutRef.current);
       }
+      if (checkEndingIntervalRef.current) {
+        clearInterval(checkEndingIntervalRef.current);
+      }
     };
   }, []);
 
   // Error reset on video change
   useEffect(() => {
     setHasError(false);
+    setIsTransitioning(false);
   }, [currentIndex]);
-
-  // Video preloading
-  useEffect(() => {
-    const nextIndex = (currentIndex + 1) % videos.length;
-    const nextVideo = videos[nextIndex];
-    
-    if (nextVideo?.src) {
-      const preloadLink = document.createElement('link');
-      preloadLink.rel = 'preload';
-      preloadLink.as = 'video';
-      preloadLink.href = nextVideo.src;
-      preloadLink.crossOrigin = 'anonymous';
-      document.head.appendChild(preloadLink);
-
-      return () => {
-        document.head.removeChild(preloadLink);
-      };
-    }
-  }, [currentIndex, videos]);
 
   // Video event handlers
   const handleVideoError = (error: any) => {
@@ -84,48 +72,93 @@ const VideoOverlay: React.FC<VideoOverlayProps> = memo(({ videos }) => {
     setIsLoading(false);
   };
 
-  // Video transition handler
-  const handleVideoTransition = () => {
+  // Video transition handler with debounce
+  const handleVideoTransition = useCallback(() => {
+    const now = Date.now();
+    const timeSinceLastTransition = now - lastTransitionTime.current;
+    
+    // Prevent rapid transitions
+    if (isTransitioning || timeSinceLastTransition < 500) {
+      return;
+    }
+
+    setIsTransitioning(true);
     setFadeOut(true);
+    lastTransitionTime.current = now;
     
     transitionTimeoutRef.current = setTimeout(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % videos.length);
+      setCurrentIndex(prevIndex => {
+        const nextIndex = (prevIndex + 1) % videos.length;
+        return nextIndex;
+      });
       setFadeOut(false);
+      setIsTransitioning(false);
     }, 500);
-  };
+  }, [videos.length, isTransitioning]);
 
-  // Video event listeners
+  // Video event listeners with improved end detection
   useEffect(() => {
     const vid = videoRef.current;
     if (!vid) return;
 
-    const onTimeUpdate = () => {
-      if (vid.duration && vid.duration - vid.currentTime < 0.5) {
-        handleVideoTransition();
+    // Start checking for video end when the video starts playing
+    const startEndingCheck = () => {
+      if (checkEndingIntervalRef.current) {
+        clearInterval(checkEndingIntervalRef.current);
+      }
+
+      checkEndingIntervalRef.current = setInterval(() => {
+        if (vid.duration && vid.currentTime > 0) {
+          const timeRemaining = vid.duration - vid.currentTime;
+          if (timeRemaining <= 0.5 && !isTransitioning) {
+            handleVideoTransition();
+          }
+        }
+      }, 100); // Check every 100ms
+    };
+
+    // Event handlers
+    const onPlay = () => {
+      startEndingCheck();
+    };
+
+    const onPause = () => {
+      if (checkEndingIntervalRef.current) {
+        clearInterval(checkEndingIntervalRef.current);
       }
     };
 
     const onEnded = () => {
-      if (currentIndex === videos.length - 1) {
+      if (!isTransitioning) {
         handleVideoTransition();
       }
     };
 
     // Event listeners
-    vid.addEventListener('timeupdate', onTimeUpdate);
+    vid.addEventListener('play', onPlay);
+    vid.addEventListener('pause', onPause);
     vid.addEventListener('ended', onEnded);
     vid.addEventListener('error', handleVideoError);
     vid.addEventListener('loadstart', handleLoadStart);
     vid.addEventListener('canplay', handleCanPlay);
 
+    // Start the end check if video is already playing
+    if (!vid.paused) {
+      startEndingCheck();
+    }
+
     return () => {
-      vid.removeEventListener('timeupdate', onTimeUpdate);
+      if (checkEndingIntervalRef.current) {
+        clearInterval(checkEndingIntervalRef.current);
+      }
+      vid.removeEventListener('play', onPlay);
+      vid.removeEventListener('pause', onPause);
       vid.removeEventListener('ended', onEnded);
       vid.removeEventListener('error', handleVideoError);
       vid.removeEventListener('loadstart', handleLoadStart);
       vid.removeEventListener('canplay', handleCanPlay);
     };
-  }, [currentIndex, videos.length]);
+  }, [currentIndex, videos.length, handleVideoTransition, isTransitioning]);
 
   // Source validation
   useEffect(() => {
@@ -146,7 +179,7 @@ const VideoOverlay: React.FC<VideoOverlayProps> = memo(({ videos }) => {
   }
 
   // Memoized video component
-  const VideoComponent = memo(() => (
+  const VideoComponent = useCallback(() => (
     <BackgroundVideo
       ref={videoRef}
       className="absolute inset-0 w-full h-full object-cover"
@@ -156,9 +189,9 @@ const VideoOverlay: React.FC<VideoOverlayProps> = memo(({ videos }) => {
         width: 'auto',
         height: 'auto',
         position: 'absolute',
-        top: '50%',
+        top: '0',
         left: '50%',
-        transform: 'translate(-50%, -50%)',
+        transform: 'translateX(-50%)',
         willChange: 'transform'
       }}
       src={currentVideo.src}
@@ -167,15 +200,14 @@ const VideoOverlay: React.FC<VideoOverlayProps> = memo(({ videos }) => {
       muted
       autoPlay
       playsInline
+      preload="auto"
       onLoadStart={handleLoadStart}
       onCanPlay={handleCanPlay}
     />
-  ));
-
-  VideoComponent.displayName = 'VideoComponent';
+  ), [currentVideo.src, currentVideo.id, handleLoadStart, handleCanPlay]);
 
   return (
-    <div className="fixed inset-0 w-full h-full bg-black">
+    <div className="relative inset-0 w-full h-full bg-black">
       {mounted && currentVideo?.src && (
         <>
           <div 

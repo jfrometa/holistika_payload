@@ -63,7 +63,7 @@ const videosData = [
     brandName: 'CoolBrand 1',
     title: 'Promo Video #1',
     src: '/video/v1/assets/WPnWKSmSdxk01IEzqDjltrDrE01nwf2pyubXiGHfk02i4Q',
-    id: 'YgfnnT6R1IaYrznDel02GRBtYwtfhU5SncnhYgZg9wMY',
+    id: '1vpJM0102H3gGayurHCYjLJ86g1E4OxTMsDgoBvqWB5Ec',
   },
   {
     brandName: 'CoolBrand 2',
@@ -93,7 +93,7 @@ const rootPage = (
         <div className="rainbow-gradient-circle theme-pink"></div>
       </div>
 
-      <div className="relative w-full h-screen overflow-hidden">
+      <div className="relative w-full h-screen ">
            <VideoOverlay videos={videosData} />
       </div>
 
