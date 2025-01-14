@@ -1,8 +1,9 @@
+import Image from "next/image";
 import { useEffect, useRef, useState, useCallback } from 'react';
+import React from 'react';
+
 import type { VideoQualityLevel, VideoAnalytics } from './video_utility';
 import { VideoAnalyticsTracker, NetworkSpeedTest, VideoPreloader } from './video_utility';
-import React from 'react';
-import Image from "next/image";
 interface VideoBackgroundProps {
   videoSources: VideoQualityLevel[];
   videoPoster: string;

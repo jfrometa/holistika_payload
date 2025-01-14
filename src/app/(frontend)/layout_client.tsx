@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import sal from 'sal.js'; 
+import React, { useEffect } from 'react';
+import sal from 'sal.js';
+ 
 import 'react-modal-video/scss/modal-video.scss';
 import 'photoswipe/dist/photoswipe.css';
 import BackToTop from '@/ui/common/BackToTop';

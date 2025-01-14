@@ -1,4 +1,3 @@
-import { Config } from 'payload'
 import {
   BoldFeature,
   ItalicFeature,
@@ -7,6 +6,7 @@ import {
   lexicalEditor,
   UnderlineFeature,
 } from '@payloadcms/richtext-lexical'
+import { Config } from 'payload'
 
 export const defaultLexical: Config['editor'] = lexicalEditor({
   features: () => {

@@ -1,15 +1,17 @@
 'use client';
-import { useEffect, useState, useCallback, useRef } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState, useCallback, useRef } from 'react';
+
 import ModeSwitcher from '@/app/(frontend)/components/common/ModeSwitcher';
 import Nav from '@/app/(frontend)/components/headers/Nav';
+import type { Header } from '@/payload-types';
+import { useHeaderTheme } from '@/providers/HeaderTheme';
 import { cn } from '@/utilities/cn';
 import { openMenu } from '@/utils/toggleMenu';
-import type { Header } from '@/payload-types';
 
-import { useHeaderTheme } from '@/providers/HeaderTheme';
-import { usePathname } from 'next/navigation';
+
 
 interface HeaderClientProps {
   header: Header;

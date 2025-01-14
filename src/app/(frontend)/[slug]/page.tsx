@@ -1,22 +1,24 @@
 import '@/scss/main.scss';
 
 import type { Metadata } from 'next';
-import { PayloadRedirects } from '@/components/PayloadRedirects';
-import configPromise from '@payload-config';
-import { getPayload } from 'payload';
 import { draftMode } from 'next/headers';
-import React, { cache, Suspense } from 'react'; 
-import type { Page as PageType } from '@/payload-types';
+import { getPayload } from 'payload';
+import React, { cache, Suspense } from 'react';
+ 
 import { RenderBlocks } from '@/blocks/RenderBlocks';
+import { PayloadRedirects } from '@/components/PayloadRedirects';
 import { RenderHero } from '@/heros/RenderHero';
-import { generateMeta } from '@/utilities/generateMeta';
-import PageClient from './page.client';
+import type { Page as PageType } from '@/payload-types';
 import Blogs from '@/ui/common/Blogs';
 import About from '@/ui/homes/index-international-consulting/About';
 import Facts from '@/ui/homes/index-international-consulting/Facts';
-import VideoOverlay from '@/ui/video/video_overlay';
 import Portfolio from '@/ui/homes/index-international-consulting/Portfolio';
 import Service from '@/ui/homes/index-international-consulting/Service';
+import VideoOverlay from '@/ui/video/video_overlay';
+import { generateMeta } from '@/utilities/generateMeta';
+import configPromise from '@payload-config';
+
+import PageClient from './page.client';
 
 
 interface PageParams {
