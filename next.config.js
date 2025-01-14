@@ -9,20 +9,20 @@ const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  poweredByHeader: false,
   eslint: {
     // Only run ESLint on these directories during builds
     dirs: ['pages', 'app', 'components', 'lib', 'utils', 'hooks'],
     
     // Only disable this if you're getting blocking ESLint errors during build
-    ignoreDuringBuilds: 'true'
+    ignoreDuringBuilds: true
   },
   typescript: {
-    ignoreBuildErrors: 'true'
+    ignoreBuildErrors: true
   },
   experimental: {
     optimizeCss: true,
   },
+  
   images: {
     remotePatterns: [
       ...[NEXT_PUBLIC_SERVER_URL /* 'https://example.com' */].map((item) => {

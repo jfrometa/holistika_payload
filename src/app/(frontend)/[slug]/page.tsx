@@ -14,11 +14,12 @@ import About from '@/ui/homes/index-international-consulting/About';
 import Facts from '@/ui/homes/index-international-consulting/Facts';
 import Portfolio from '@/ui/homes/index-international-consulting/Portfolio';
 import Service from '@/ui/homes/index-international-consulting/Service';
-import VideoOverlay from '@/ui/video/video_overlay';
+// import VideoOverlay from '@/ui/video/video_overlay';
 import { generateMeta } from '@/utilities/generateMeta';
 import configPromise from '@payload-config';
 
 import PageClient from './page.client';
+import VideoOverlay from '../components/video/background_video_slider';
 
 
 interface PageParams {
@@ -57,6 +58,27 @@ type Args = {
   }>;
 };
 
+const videosData = [
+  {
+    brandName: 'CoolBrand 1',
+    title: 'Promo Video #1',
+    src: '/video/v1/assets/WPnWKSmSdxk01IEzqDjltrDrE01nwf2pyubXiGHfk02i4Q',
+    id: 'YgfnnT6R1IaYrznDel02GRBtYwtfhU5SncnhYgZg9wMY',
+  },
+  {
+    brandName: 'CoolBrand 2',
+    title: 'Promo Video #2',
+    src: '/video/v1/assets/WPnWKSmSdxk01IEzqDjltrDrE01nwf2pyubXiGHfk02i4Q',
+    id: 'YgfnnT6R1IaYrznDel02GRBtYwtfhU5SncnhYgZg9wMY',
+  },
+  {
+    brandName: 'CoolBrand 3',
+    title: 'Promo Video #3',
+    src: '/video/v1/assets/WPnWKSmSdxk01IEzqDjltrDrE01nwf2pyubXiGHfk02i4Q',
+    id: 'YgfnnT6R1IaYrznDel02GRBtYwtfhU5SncnhYgZg9wMY',
+  },
+];
+
 const rootPage = (
   <>
     <div className="splash-wrapper scrollSpyLinks">
@@ -72,7 +94,7 @@ const rootPage = (
       </div>
 
       <div className="relative w-full h-screen overflow-hidden">
-           <VideoOverlay />
+           <VideoOverlay videos={videosData} />
       </div>
 
       <Service />
@@ -111,9 +133,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   // // Remove this code once your website is seeded
   if (page && slug === 'home') {
-    return (<Suspense fallback={<div>Loading...</div>}>
-       {rootPage}
-    </Suspense>)
+    return  rootPage 
     
   }
 
