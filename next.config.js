@@ -15,10 +15,10 @@ const nextConfig = {
     dirs: ['pages', 'app', 'components', 'lib', 'utils', 'hooks'],
     
     // Only disable this if you're getting blocking ESLint errors during build
-    ignoreDuringBuilds:   'true'
+    ignoreDuringBuilds: 'true'
   },
   typescript: {
-    ignoreBuildErrors:  'true'
+    ignoreBuildErrors: 'true'
   },
   experimental: {
     optimizeCss: true,
