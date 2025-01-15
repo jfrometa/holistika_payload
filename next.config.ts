@@ -1,3 +1,5 @@
+const { withNextVideo } = require('next-video/process')
+
 import { withPayload } from '@payloadcms/next/withPayload'
 
 import redirects from './redirects.js'
