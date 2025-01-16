@@ -62,20 +62,20 @@ const videosData = [
   {
     brandName: 'CoolBrand 1',
     title: 'Promo Video #1',
-    src: '/video/v1/assets/WPnWKSmSdxk01IEzqDjltrDrE01nwf2pyubXiGHfk02i4Q',
-    id: '1vpJM0102H3gGayurHCYjLJ86g1E4OxTMsDgoBvqWB5Ec',
+    src: '/video/v1/assets/uLreT3DXlPDbidRURqeBCT018TAFHkm2E4YxcUUYEXLs',
+    id: 'tpafk01ecmp9mcfUcGjL00LSYnf9cL3VZCUDipQJgqlTQ',
   },
   {
     brandName: 'CoolBrand 2',
     title: 'Promo Video #2',
-    src: '/video/v1/assets/WPnWKSmSdxk01IEzqDjltrDrE01nwf2pyubXiGHfk02i4Q',
-    id: 'YgfnnT6R1IaYrznDel02GRBtYwtfhU5SncnhYgZg9wMY',
+    src: '/video/v1/assets/tTvVbx02g1D5UdzIPIbU6si7nJIDbrHEHKx5XisW7LuE',
+    id: '72HFJZDZJ8EOnkCS79VBZ7qp4PpMbQO8awPIF02dFt1g',
   },
   {
     brandName: 'CoolBrand 3',
     title: 'Promo Video #3',
-    src: '/video/v1/assets/WPnWKSmSdxk01IEzqDjltrDrE01nwf2pyubXiGHfk02i4Q',
-    id: 'YgfnnT6R1IaYrznDel02GRBtYwtfhU5SncnhYgZg9wMY',
+    src: '/video/v1/assets/601Dq8Y9HNDqfxATspFiKtp402wKb4R67jWwJBTNTD9UA',
+    id: 'fwBgSeV00vnva200jaMWbJdL5RFHmRbc58KXCwZIXJz200',
   },
 ];
 

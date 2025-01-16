@@ -1,6 +1,12 @@
 'use client';
 
-import { useState, useEffect, useRef, memo, useCallback } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  memo,
+  useCallback
+} from 'react';
 import BackgroundVideo from 'next-video/background-video';
 import SlideCounter from './slider-counter';
 import VideoSkeleton from './video_skeleton';
@@ -9,6 +15,51 @@ import VideoSkeleton from './video_skeleton';
 const TRANSITION_DURATION = 500;
 const VIDEO_END_THRESHOLD = 0.5;
 
+// Styles
+const containerStyles = {
+  position: 'fixed' as const,
+  top: 0,
+  left: 0,
+  width: '100vw',
+  height: '100vh',
+  overflow: 'hidden',
+  backgroundColor: '#000'
+};
+
+const slidingContainerStyles = {
+  position: 'relative' as const,
+  display: 'flex',
+  width: '200vw',
+  height: '100vh',
+  transform: 'translateX(0)',
+  transition: 'transform 500ms ease-in-out',
+  backgroundColor: '#000'
+};
+
+const commonVideoStyles = {
+  position: 'absolute' as const,
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  width: '100vw',
+  height: '100vh',
+  objectFit: 'cover' as const,
+  objectPosition: 'center',
+  backgroundColor: '#000',
+  margin: 'auto'
+};
+
+const videoContainerStyles = {
+  position: 'relative' as const,
+  width: '100vw',
+  height: '100vh',
+  flexShrink: 0,
+  overflow: 'hidden',
+  backgroundColor: '#000'
+};
+
+// Type definitions (adjust if needed)
 interface VideoItem {
   brandName: string;
   title: string;
@@ -20,146 +71,233 @@ interface VideoOverlayProps {
   videos: VideoItem[];
 }
 
-// Common video styles
-const commonVideoStyles = {
-  position: 'absolute' as const,
-  width: '100vw',
-  height: '100vh',
-  objectFit: 'cover' as const,
-  top: '0',
-  left: '0',
-  right: '0',
-  bottom: '0',
-  margin: 'auto',
-};
+/**
+ * Single Video element, wrapped in `memo` to avoid unnecessary re-renders.
+ */
+const VideoElement = memo(({
+  video,
+  videoRef,
+  onLoadStart,
+  onCanPlay,
+  onError
+}: {
+  video: VideoItem;
+  videoRef: React.RefObject<HTMLVideoElement | null>;
+  onLoadStart?: () => void;
+  onCanPlay?: () => void;
+  onError?: (error: any) => void;
+}) => {
+  return (
+    <div style={videoContainerStyles}>
+      <BackgroundVideo
+        ref={videoRef}
+        style={commonVideoStyles}
+        streamType="on-demand"
+        playbackId={video.id}
+        src={video.src}
+        muted
+        autoPlay
+        playsInline
+        preload="auto"
+        onLoadStart={onLoadStart}
+        onCanPlay={onCanPlay}
+        onError={onError}
+      />
+    </div>
+  );
+});
+VideoElement.displayName = 'VideoElement';
 
+/**
+ * Main VideoOverlay component to handle:
+ * - Sliding from one video to the next
+ * - Showing a skeleton only on the initial load
+ * - Automatic transition near the end of a video
+ */
 const VideoOverlay: React.FC<VideoOverlayProps> = memo(({ videos }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [nextIndex, setNextIndex] = useState<number | null>(null);
+
+  // Only for the very first video load:
   const [isLoading, setIsLoading] = useState(true);
-  const [isSliding, setIsSliding] = useState(false);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [hasError, setHasError] = useState(false);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
 
+  // Sliding/transition state
+  const [isSliding, setIsSliding] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  // Error handling
+  const [hasError, setHasError] = useState(false);
+
+  // Refs to the actual <video> elements
   const currentVideoRef = useRef<HTMLVideoElement | null>(null);
   const nextVideoRef = useRef<HTMLVideoElement | null>(null);
+
+  // Ref to measure time between transitions (avoid multiple triggers)
   const lastTransitionTime = useRef<number>(0);
+
+  // Ref to the sliding container element
   const slidingContainerRef = useRef<HTMLDivElement>(null);
 
   const currentVideo = videos[currentIndex];
   const nextVideo = nextIndex !== null ? videos[nextIndex] : null;
 
-  // Update video dimensions
+  /**
+   * Update (force) each video to the same styling/dimensions if needed.
+   * Called on mount and on window resize.
+   */
   const updateVideoDimensions = useCallback(() => {
-    const updateVideoStyle = (videoElement: HTMLVideoElement | null) => {
-      if (!videoElement) return;
-      Object.assign(videoElement.style, commonVideoStyles);
-    };
-
-    updateVideoStyle(currentVideoRef.current);
-    updateVideoStyle(nextVideoRef.current);
+    [currentVideoRef.current, nextVideoRef.current].forEach((video) => {
+      if (video) {
+        Object.assign(video.style, commonVideoStyles);
+      }
+    });
   }, []);
 
-  // Handle window resize
+  /**
+   * Attach resize listener once, then remove on unmount.
+   */
   useEffect(() => {
     updateVideoDimensions();
     window.addEventListener('resize', updateVideoDimensions);
     return () => window.removeEventListener('resize', updateVideoDimensions);
   }, [updateVideoDimensions]);
 
-  // Update dimensions when videos change
-  useEffect(() => {
-    updateVideoDimensions();
-  }, [currentIndex, nextIndex, updateVideoDimensions]);
-
+  /**
+   * Slide to the next video. We do a CSS transform animation:
+   * - Translate container to -100vw
+   * - After `TRANSITION_DURATION`, swap indexes
+   * - Reset transform to 0
+   */
   const handleVideoTransition = useCallback(() => {
     const now = Date.now();
     const timeSinceLastTransition = now - lastTransitionTime.current;
-    
+
     if (isTransitioning || timeSinceLastTransition < TRANSITION_DURATION) {
       return;
     }
-
     setIsTransitioning(true);
+
     const next = (currentIndex + 1) % videos.length;
     setNextIndex(next);
     setIsSliding(true);
     lastTransitionTime.current = now;
 
-    if (slidingContainerRef.current) {
-      slidingContainerRef.current.style.transform = 'translateX(0)';
-      void slidingContainerRef.current.offsetHeight;
-      slidingContainerRef.current.style.transform = 'translateX(-100%)';
-    }
+    // Trigger the slide animation
+    requestAnimationFrame(() => {
+      if (slidingContainerRef.current) {
+        slidingContainerRef.current.style.transform = 'translateX(-100vw)';
+      }
+    });
 
+    // After the animation finishes, swap
     setTimeout(() => {
       setCurrentIndex(next);
       setNextIndex(null);
       setIsSliding(false);
       setIsTransitioning(false);
-      
+
+      // Reset the container for the next slide
       if (slidingContainerRef.current) {
         slidingContainerRef.current.style.transition = 'none';
         slidingContainerRef.current.style.transform = 'translateX(0)';
+        // Force reflow so the browser picks up the "no transition" style
         void slidingContainerRef.current.offsetHeight;
+        // Then reapply the transition styles for subsequent slides
         slidingContainerRef.current.style.transition = 'transform 500ms ease-in-out';
       }
     }, TRANSITION_DURATION);
   }, [currentIndex, isTransitioning, videos.length]);
 
+  /**
+   * Watch the current video’s time; transition automatically near the end.
+   */
   const handleTimeUpdate = useCallback(() => {
     const video = currentVideoRef.current;
     if (!video || isTransitioning) return;
 
     const timeRemaining = video.duration - video.currentTime;
-    
+    // If there is a valid duration, we check if we're near the end
     if (video.duration && timeRemaining <= VIDEO_END_THRESHOLD) {
       handleVideoTransition();
     }
   }, [handleVideoTransition, isTransitioning]);
 
+  /**
+   * Only set `isLoading` to `true` if this is the **very first** load (isInitialLoad).
+   */
   const handleLoadStart = useCallback(() => {
-    setIsLoading(true);
-  }, []);
+    if (isInitialLoad) {
+      setIsLoading(true);
+    }
+  }, [isInitialLoad]);
 
+  /**
+   * Once the video can play, if this is the first video, hide the skeleton permanently.
+   */
   const handleCanPlay = useCallback(() => {
-    setIsLoading(false);
-    setIsInitialLoad(false);
+    if (isInitialLoad) {
+      setIsLoading(false);
+      setIsInitialLoad(false);
+    }
     updateVideoDimensions();
-  }, [updateVideoDimensions]);
+  }, [isInitialLoad, updateVideoDimensions]);
 
+  /**
+   * Handle video load error. If fatal, show fallback UI or error message.
+   */
   const handleVideoError = useCallback((error: any) => {
     console.error('Video loading error:', error);
-    setHasError(true);
-    setIsLoading(false);
+    if (error?.fatal) {
+      setHasError(true);
+      setIsLoading(false);
+    }
   }, []);
 
+  /**
+   * Attach events on the current video element:
+   * - timeupdate: triggers auto-transition near the end
+   * - ended: fallback if the timeupdate didn’t catch it
+   * - error: handle load errors
+   * - loadstart, canplay: manage skeleton only for initial load
+   * - loadedmetadata: update dimensions
+   * - stalled/waiting: optional re-play or show buffering state
+   */
   useEffect(() => {
     const vid = currentVideoRef.current;
     if (!vid) return;
 
-    const eventHandlers = {
-      timeupdate: handleTimeUpdate,
-      ended: () => {
-        if (!isTransitioning) {
-          handleVideoTransition();
-        }
-      },
-      error: handleVideoError,
-      loadstart: handleLoadStart,
-      canplay: handleCanPlay,
-      loadedmetadata: updateVideoDimensions
+    const onEnded = () => {
+      if (!isTransitioning) {
+        handleVideoTransition();
+      }
     };
 
-    Object.entries(eventHandlers).forEach(([event, handler]) => {
-      vid.addEventListener(event, handler);
+    vid.addEventListener('timeupdate', handleTimeUpdate);
+    vid.addEventListener('ended', onEnded);
+    vid.addEventListener('error', handleVideoError);
+    vid.addEventListener('loadstart', handleLoadStart);
+    vid.addEventListener('canplay', handleCanPlay);
+    vid.addEventListener('loadedmetadata', updateVideoDimensions);
+
+    vid.addEventListener('stalled', () => {
+      // Attempt to resume if partially played.
+      if (vid.currentTime > 0) {
+        vid.play().catch(() => {});
+      }
+    });
+    vid.addEventListener('waiting', () => {
+      // This is optional. For instance, you might show a small spinner, etc.
+      console.log('Video is buffering...');
     });
 
     return () => {
-      Object.entries(eventHandlers).forEach(([event, handler]) => {
-        vid.removeEventListener(event, handler);
-      });
+      vid.removeEventListener('timeupdate', handleTimeUpdate);
+      vid.removeEventListener('ended', onEnded);
+      vid.removeEventListener('error', handleVideoError);
+      vid.removeEventListener('loadstart', handleLoadStart);
+      vid.removeEventListener('canplay', handleCanPlay);
+      vid.removeEventListener('loadedmetadata', updateVideoDimensions);
     };
   }, [
     handleTimeUpdate,
@@ -171,14 +309,20 @@ const VideoOverlay: React.FC<VideoOverlayProps> = memo(({ videos }) => {
     updateVideoDimensions
   ]);
 
+  /**
+   * Reset error and transition states whenever the currentIndex changes.
+   */
   useEffect(() => {
     setHasError(false);
     setIsTransitioning(false);
   }, [currentIndex]);
 
+  /**
+   * If there's a fatal error loading the video, show an error overlay or fallback UI.
+   */
   if (hasError) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-black">
+      <div style={containerStyles} className="flex items-center justify-center">
         <div className="text-white text-xl bg-red-500/50 px-6 py-4 rounded-lg backdrop-blur-sm">
           Failed to load video. Retrying...
         </div>
@@ -187,57 +331,33 @@ const VideoOverlay: React.FC<VideoOverlayProps> = memo(({ videos }) => {
   }
 
   return (
-    <div className="relative inset-0 w-screen h-screen bg-black overflow-hidden">
-      <div 
-        ref={slidingContainerRef}
-        className="flex w-screen h-screen relative"
-        style={{
-          transform: 'translateX(0)',
-          transition: 'transform 500ms ease-in-out'
-        }}
-      >
-        <div className="w-screen h-screen flex-shrink-0 relative overflow-hidden">
-          <BackgroundVideo
-            ref={currentVideoRef}
-            className="absolute w-screen h-screen object-cover"
-            style={commonVideoStyles}
-            streamType="on-demand"
-            playbackId={currentVideo.id}
-            src={currentVideo.src}
-            muted
-            autoPlay
-            playsInline
-            preload="auto"
-            onLoadStart={handleLoadStart}
-            onCanPlay={handleCanPlay}
-            onError={handleVideoError}
-          />
-        </div>
+    <div style={containerStyles}>
+      <div ref={slidingContainerRef} style={slidingContainerStyles}>
+        {/* CURRENT VIDEO */}
+        <VideoElement
+          video={currentVideo}
+          videoRef={currentVideoRef}
+          onLoadStart={handleLoadStart}
+          onCanPlay={handleCanPlay}
+          onError={handleVideoError}
+        />
 
+        {/* NEXT VIDEO (hidden/off-screen until we slide) */}
         {nextVideo && (
-          <div className="w-screen h-screen flex-shrink-0 relative">
-            <BackgroundVideo
-              ref={nextVideoRef}
-              className="absolute w-screen h-screen object-cover"
-              style={commonVideoStyles}
-              streamType="on-demand"
-              playbackId={nextVideo.id}
-              // src={nextVideo.src}
-              muted
-              loop
-              autoPlay
-              playsInline
-              preload="auto"
-            />
-          </div>
+          <VideoElement
+            video={nextVideo}
+            videoRef={nextVideoRef}
+          />
         )}
       </div>
 
-      {isInitialLoad && isLoading && <VideoSkeleton isVisible={true} />}
+      {/* Only show the skeleton on the very first load */}
+      {isInitialLoad && isLoading && <VideoSkeleton isVisible />}
 
+      {/* Remove "transition-opacity" if you don’t want a fade in/out of the HUD */}
       <div
-        className={`fixed inset-0 z-20 pointer-events-none transition-opacity duration-500 ${
-          isLoading ? 'opacity-100' : 'opacity-100'
+        className={`fixed inset-0 z-20 pointer-events-none ${
+          isLoading ? 'opacity-0' : 'opacity-100'
         }`}
       >
         <div className="absolute top-8 left-8 text-white text-xl font-bold bg-black/50 px-4 py-2 rounded-lg backdrop-blur-sm">
@@ -255,5 +375,4 @@ const VideoOverlay: React.FC<VideoOverlayProps> = memo(({ videos }) => {
 });
 
 VideoOverlay.displayName = 'VideoOverlay';
-
 export default VideoOverlay;
