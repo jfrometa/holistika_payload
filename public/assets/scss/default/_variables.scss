@@ -1,17 +1,17 @@
 /*-- Variables --*/
 :root {
   //Themes colors
-  --color-primary: #059dff;
-  --color-primary-rgba: rgb(5, 157, 255);
-  --color-primary-rgba-2: rgba(5, 157, 255, 0.15);
-  --color-primary-alt: #059dff;
-  --color-primary-light: #059dff;
-  --color-primary-lightest: #059dff;
-  --color-secondary: #fb5343;
-  --color-tertiary: #6549d5;
-  --color-tertiary-alt: #6549d5;
-  --color-pink: #e33fa1;
-  --color-light-green: #36c6f0;
+  --color-primary: #EE4019;
+  --color-primary-rgba: rgb(238, 64,35);
+  --color-primary-rgba-2: rgba(238, 64,35, 0.15);
+  --color-primary-alt: #f36f50;      /* +10% lightness */
+  --color-primary-light: #f78d75;    /* +20% lightness */
+  --color-primary-lightest: #f9aaa0; /* +30% lightness */
+  --color-secondary: rgb(0, 170,188);
+  --color-tertiary: rgb(34, 62, 75);
+  --color-tertiary-alt: rgb(34, 62, 75, 0.15);
+  --color-pink: #EE4019;
+  --color-light-green: rgb(238, 64,35);
 
   --color-primary-darker: #011827;
   --color-tertiary-darker: #150b40;

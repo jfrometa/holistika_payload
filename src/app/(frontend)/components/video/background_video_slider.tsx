@@ -15,26 +15,7 @@ import VideoSkeleton from './video_skeleton';
 const TRANSITION_DURATION = 500;
 const VIDEO_END_THRESHOLD = 0.5;
 
-// Styles
-const containerStyles = {
-  position: 'fixed' as const,
-  top: 0,
-  left: 0,
-  width: '100vw',
-  height: '100vh',
-  overflow: 'hidden',
-  backgroundColor: '#000'
-};
 
-const slidingContainerStyles = {
-  position: 'relative' as const,
-  display: 'flex',
-  width: '200vw',
-  height: '100vh',
-  transform: 'translateX(0)',
-  transition: 'transform 500ms ease-in-out',
-  backgroundColor: '#000'
-};
 
 const commonVideoStyles = {
   position: 'absolute' as const,
@@ -50,13 +31,37 @@ const commonVideoStyles = {
   margin: 'auto'
 };
 
+// 1) Container & sliding container: zIndex: 0
+const containerStyles = {
+  position: 'absolute' as const,
+  top: 0,
+  left: 0,
+  width: '100vw',
+  height: '100vh',
+  overflow: 'hidden',
+  backgroundColor: '#000',
+  zIndex: 0, // explicitly behind
+};
+
+const slidingContainerStyles = {
+  position: 'relative' as const,
+  display: 'flex',
+  width: '100vw',
+  height: '100vh',
+  transform: 'translateX(0)',
+  transition: 'transform 500ms ease-in-out',
+  backgroundColor: 'transparent',
+  zIndex: 0,
+};
+
 const videoContainerStyles = {
   position: 'relative' as const,
   width: '100vw',
   height: '100vh',
   flexShrink: 0,
   overflow: 'hidden',
-  backgroundColor: '#000'
+  backgroundColor: 'transparent',
+  zIndex: 0,
 };
 
 // Type definitions (adjust if needed)
@@ -247,7 +252,7 @@ const VideoOverlay: React.FC<VideoOverlayProps> = memo(({ videos }) => {
    * Handle video load error. If fatal, show fallback UI or error message.
    */
   const handleVideoError = useCallback((error: any) => {
-    console.error('Video loading error:', error);
+    console.log('Video loading error:', error);
     if (error?.fatal) {
       setHasError(true);
       setIsLoading(false);
@@ -354,9 +359,9 @@ const VideoOverlay: React.FC<VideoOverlayProps> = memo(({ videos }) => {
       {/* Only show the skeleton on the very first load */}
       {isInitialLoad && isLoading && <VideoSkeleton isVisible />}
 
-      {/* Remove "transition-opacity" if you don’t want a fade in/out of the HUD */}
-      <div
-        className={`fixed inset-0 z-20 pointer-events-none ${
+      {/* Remove "transition-opacity" if you don’t want a fade in/out of the HUD */} 
+           <div
+        className={`absolute inset-0 z-20 pointer-events-none ${
           isLoading ? 'opacity-0' : 'opacity-100'
         }`}
       >
@@ -369,7 +374,8 @@ const VideoOverlay: React.FC<VideoOverlayProps> = memo(({ videos }) => {
         <div className="absolute bottom-8 right-8 text-white text-lg bg-black/50 px-4 py-2 rounded-lg backdrop-blur-sm">
           <SlideCounter current={currentIndex + 1} total={videos.length} />
         </div>
-      </div>
+  
+    </div>
     </div>
   );
 });
