@@ -12,7 +12,7 @@ export interface ContextType {
 
 const initialContext: ContextType = {
   headerTheme: undefined,
-  setHeaderTheme: () => null,
+  setHeaderTheme: () => 'light',
 }
 
 const HeaderThemeContext = createContext(initialContext)

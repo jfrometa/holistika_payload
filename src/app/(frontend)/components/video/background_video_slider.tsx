@@ -382,3 +382,389 @@ const VideoOverlay: React.FC<VideoOverlayProps> = memo(({ videos }) => {
 
 VideoOverlay.displayName = 'VideoOverlay';
 export default VideoOverlay;
+
+
+
+// 'use client';
+
+// import React, { useState, useEffect, useRef, useCallback } from 'react';
+// import BackgroundVideo from 'next-video/background-video';
+// import SlideCounter from './slider-counter';
+// import VideoSkeleton from './video_skeleton';
+
+// // --------------------
+// //    CONSTANTS
+// // --------------------
+// const TRANSITION_DURATION = 500;  // milliseconds
+// const VIDEO_END_THRESHOLD = 0.5;  // seconds from the end => trigger next
+
+// // --------------------
+// //    STYLES
+// // --------------------
+// const containerStyles = {
+//   position: 'fixed' as const,
+//   top: 0,
+//   left: 0,
+//   width: '100vw',
+//   height: '100vh',
+//   overflow: 'hidden',
+//   backgroundColor: '#000'
+// };
+
+// const slidingContainerStyles = {
+//   position: 'relative' as const,
+//   display: 'flex',
+//   width: '200vw', // side-by-side for the slide
+//   height: '100vh',
+//   transform: 'translateX(0)',
+//   transition: `transform ${TRANSITION_DURATION}ms ease-in-out`
+// };
+
+// const videoContainerStyles = {
+//   position: 'relative' as const,
+//   width: '100vw',
+//   height: '100vh',
+//   flexShrink: 0,
+//   overflow: 'hidden',
+//   backgroundColor: '#000'
+// };
+
+// const commonVideoStyles = {
+//   position: 'absolute' as const,
+//   top: 0,
+//   left: 0,
+//   right: 0,
+//   bottom: 0,
+//   width: '100vw',
+//   height: '100vh',
+//   objectFit: 'cover' as const,
+//   objectPosition: 'center',
+//   margin: 'auto',
+//   backgroundColor: '#000'
+// };
+
+// // --------------------
+// //    TYPES
+// // --------------------
+// interface VideoItem {
+//   brandName: string;
+//   title: string;
+//   src: string;
+//   id: string;
+// }
+
+// interface VideoOverlayProps {
+//   videos: VideoItem[];
+// }
+
+// // --------------------
+// //   MAIN COMPONENT
+// // --------------------
+// export default function VideoOverlay({ videos }: VideoOverlayProps) {
+//   // If there's only one video, no sliding
+//   const hasAtLeastTwo = videos.length > 1;
+
+//   // CURRENT + INCOMING indexes into `videos`
+//   const [currentIndex, setCurrentIndex] = useState(0);
+//   const [incomingIndex, setIncomingIndex] = useState(
+//     hasAtLeastTwo ? 1 : 0
+//   );
+
+//   // Which “slot” is the current video in? (0 => Left, 1 => Right)
+//   // This determines the transform (0 => left slot is current, 1 => right slot is current)
+//   const [activeSlot, setActiveSlot] = useState<0 | 1>(0);
+
+//   // Loading & skeleton
+//   const [isInitialLoad, setIsInitialLoad] = useState(true);
+//   const [isLoading, setIsLoading] = useState(true);
+
+//   // Are we in the middle of a slide transition?
+//   const [isTransitioning, setIsTransitioning] = useState(false);
+//   const lastTransitionRef = useRef<number>(0);
+
+//   // Basic error handling
+//   const [hasError, setHasError] = useState(false);
+
+//   // Refs to DOM elements
+//   const slideContainerRef = useRef<HTMLDivElement>(null);
+
+//   // Two <video> refs:
+//   const currentVideoRef = useRef<HTMLVideoElement | null>(null);
+//   const incomingVideoRef = useRef<HTMLVideoElement | null>(null);
+
+//   // 1) The “current” video data
+//   const currentVideo = videos[currentIndex];
+//   // 2) The “incoming” (next) video data
+//   const incomingVideo = videos[incomingIndex];
+
+//   // --------------------
+//   //    UPDATE STYLES
+//   // --------------------
+//   const updateVideoDimensions = useCallback(() => {
+//     [currentVideoRef.current, incomingVideoRef.current].forEach((vid) => {
+//       if (vid) {
+//         Object.assign(vid.style, commonVideoStyles);
+//       }
+//     });
+//   }, []);
+
+//   useEffect(() => {
+//     updateVideoDimensions();
+//     window.addEventListener('resize', updateVideoDimensions);
+//     return () => window.removeEventListener('resize', updateVideoDimensions);
+//   }, [updateVideoDimensions]);
+
+//   // --------------------
+//   //  PREP & START VIDEO
+//   // --------------------
+//   // Load the video at time=0 (but do not play)
+//   const prepareVideo = useCallback(async (videoEl: HTMLVideoElement | null) => {
+//     videoEl?.pause();
+//     videoEl.currentTime = 0;
+//     videoEl?.load(); // This triggers the loading process
+//   }, []);
+
+//   // Attempt to .play() the given video
+//   const startVideo = useCallback(async (videoEl: HTMLVideoElement | null) => {
+//     try {
+//       await videoEl?.play();
+//     } catch (err) {
+//       console.error('Error starting video:', err);
+//     }
+//   }, []);
+
+//   // --------------------
+//   //    SLIDE HELPERS
+//   // --------------------
+//   const doSlideAnimation = useCallback(() => {
+//     if (!slideContainerRef.current) return;
+//     slideContainerRef.current.style.transform = 'translateX(-100vw)';
+//   }, []);
+
+//   const resetSlideAnimation = useCallback(() => {
+//     if (!slideContainerRef.current) return;
+//     // Temporarily remove transitions to snap back
+//     slideContainerRef.current.style.transition = 'none';
+//     slideContainerRef.current.style.transform = 'translateX(0)';
+//     // Force reflow
+//     void slideContainerRef.current.offsetHeight;
+//     // Re-enable transition
+//     slideContainerRef.current.style.transition = `transform ${TRANSITION_DURATION}ms ease-in-out`;
+//   }, []);
+
+//   // Next index helper
+//   const getNextIndex = useCallback(
+//     (idx: number) => (idx + 1) % videos.length,
+//     [videos.length]
+//   );
+
+//   // ------------------------------
+//   //  TRANSITION TO INCOMING VIDEO
+//   // ------------------------------
+//   const handleSlideTransition = useCallback(async () => {
+//     if (!hasAtLeastTwo || isTransitioning) return;
+
+//     const now = Date.now();
+//     if (now - lastTransitionRef.current < TRANSITION_DURATION) {
+//       return; // Avoid double-trigger
+//     }
+//     lastTransitionRef.current = now;
+//     setIsTransitioning(true);
+
+//     // 1) Prepare the incomingVideoRef (pause, reset, load),
+//     //    do not start playing it yet if you want to start *after* it slides in
+//     if (incomingVideoRef.current) {
+//       await prepareVideo(incomingVideoRef.current);
+//     }
+
+//     // 2) Slide the container
+//     doSlideAnimation();
+
+//     // 3) After the CSS animation, swap them
+//     setTimeout(() => {
+//       // Pause/reset the *old* current video
+//       if (currentVideoRef.current) {
+//         currentVideoRef.current.pause();
+//         currentVideoRef.current.currentTime = 0;
+//       }
+
+//       // Swap indexes
+//       setCurrentIndex(incomingIndex);
+
+//       // If we were using activeSlot=0 => now we want activeSlot=1, etc.
+//       setActiveSlot((prev) => (prev === 0 ? 1 : 0));
+
+//       resetSlideAnimation();
+//       setIsTransitioning(false);
+
+//       // 4) Now that the “incoming” is truly active, we can update the next incoming index
+//       setIncomingIndex(getNextIndex(incomingIndex));
+//     }, TRANSITION_DURATION);
+//   }, [
+//     hasAtLeastTwo,
+//     isTransitioning,
+//     doSlideAnimation,
+//     resetSlideAnimation,
+//     prepareVideo,
+//     incomingIndex,
+//     getNextIndex
+//   ]);
+
+//   // --------------------
+//   //   TIMEUPDATE LOGIC
+//   // --------------------
+//   // The “current” video can trigger a slide if near the end
+//   const handleTimeUpdate = useCallback(() => {
+//     if (isTransitioning || !currentVideoRef.current) return;
+//     const vid = currentVideoRef.current;
+
+//     const remaining = vid.duration - vid.currentTime;
+//     if (vid.duration && remaining <= VIDEO_END_THRESHOLD && !vid.paused) {
+//       // Only slide if truly near the end
+//       handleSlideTransition();
+//     }
+//   }, [handleSlideTransition, isTransitioning]);
+
+//   // --------------------
+//   //   INITIAL SETUP
+//   // --------------------
+//   // On mount, prepare BOTH videos, then auto-play the current.
+//   useEffect(() => {
+//     if (!currentVideoRef.current) return;
+
+//     (async () => {
+//       // 1) Prepare the “current” video
+//       await prepareVideo(currentVideoRef.current);
+
+//       // 2) Prepare the “incoming” video (if at least two)
+//       if (hasAtLeastTwo && incomingVideoRef.current) {
+//         await prepareVideo(incomingVideoRef.current);
+//       }
+
+//       // 3) Auto-play the “current” video
+//       await startVideo(currentVideoRef.current);
+
+//       setIsLoading(false);
+//       setIsInitialLoad(false);
+//     })();
+//   }, [prepareVideo, startVideo, hasAtLeastTwo]);
+
+//   // --------------------
+//   //   CURRENT VIDEO EVENTS
+//   // --------------------
+//   useEffect(() => {
+//     const vid = currentVideoRef.current;
+//     if (!vid) return;
+
+//     const onTimeUpdate = () => handleTimeUpdate();
+//     const onEnded = () => {
+//       // If it's ended fully, we also trigger the slide
+//       if (!isTransitioning) {
+//         handleSlideTransition();
+//       }
+//     };
+//     const onError = (err: any) => {
+//       console.error('Video error:', err);
+//       setHasError(true);
+//       setIsLoading(false);
+//     };
+//     const onLoadStart = () => {
+//       if (isInitialLoad) setIsLoading(true);
+//     };
+//     const onCanPlay = () => {
+//       if (isInitialLoad) {
+//         setIsLoading(false);
+//         setIsInitialLoad(false);
+//       }
+//     };
+
+//     vid.addEventListener('timeupdate', onTimeUpdate);
+//     vid.addEventListener('ended', onEnded);
+//     vid.addEventListener('error', onError);
+//     vid.addEventListener('loadstart', onLoadStart);
+//     vid.addEventListener('canplay', onCanPlay);
+
+//     // Cleanup
+//     return () => {
+//       vid.removeEventListener('timeupdate', onTimeUpdate);
+//       vid.removeEventListener('ended', onEnded);
+//       vid.removeEventListener('error', onError);
+//       vid.removeEventListener('loadstart', onLoadStart);
+//       vid.removeEventListener('canplay', onCanPlay);
+//     };
+//   }, [handleTimeUpdate, handleSlideTransition, isInitialLoad, isTransitioning]);
+
+//   // Clear error on new current index
+//   useEffect(() => {
+//     setHasError(false);
+//   }, [currentIndex]);
+
+//   // --------------------
+//   //   RENDER
+//   // --------------------
+//   if (hasError) {
+//     return (
+//       <div style={containerStyles} className="flex items-center justify-center">
+//         <div className="text-white text-xl bg-red-500/50 px-6 py-4 rounded-lg backdrop-blur-sm">
+//           Video error occurred.
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div style={containerStyles}>
+//       <div ref={slideContainerRef} style={slidingContainerStyles}>
+//         {/* LEFT SLOT => the "activeSlot=0" is the "current" video */}
+//         <div style={videoContainerStyles}>
+//           <BackgroundVideo
+//             ref={currentVideoRef}
+//             style={commonVideoStyles}
+//             streamType="on-demand"
+//             src={videos[currentIndex].src}
+//             playbackId={videos[currentIndex].id}
+//             muted
+//             autoPlay
+//             preload="auto"
+//             playsInline
+//           />
+//         </div>
+
+//         {/* RIGHT SLOT => the "activeSlot=1" is the "current" video */}
+//         <div style={videoContainerStyles}>
+//           <BackgroundVideo
+//             ref={incomingVideoRef}
+//             style={commonVideoStyles}
+//             streamType="on-demand"
+//             src={videos[incomingIndex].src}
+//             playbackId={videos[incomingIndex].id}
+//             muted
+//             autoPlay
+//             preload="auto"
+//             playsInline
+//           />
+//         </div>
+//       </div>
+
+//       {/* Show skeleton only on the very first load */}
+//       {isInitialLoad && isLoading && <VideoSkeleton isVisible />}
+
+//       {/* Overlay / HUD */}
+//       <div
+//         className={`fixed inset-0 z-20 pointer-events-none transition-opacity duration-500 ${
+//           isLoading ? 'opacity-0' : 'opacity-100'
+//         }`}
+//       >
+//         <div className="absolute top-8 left-8 text-white text-xl font-bold bg-black/50 px-4 py-2 rounded-lg backdrop-blur-sm">
+//           {currentVideo.brandName}
+//         </div>
+//         <div className="absolute bottom-8 left-8 text-white text-lg bg-black/50 px-4 py-2 rounded-lg backdrop-blur-sm">
+//           {currentVideo.title}
+//         </div>
+//         <div className="absolute bottom-8 right-8 text-white text-lg bg-black/50 px-4 py-2 rounded-lg backdrop-blur-sm">
+//           <SlideCounter current={currentIndex + 1} total={videos.length} />
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }

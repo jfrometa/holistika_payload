@@ -27,7 +27,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ header }) => {
 
   // Reset headerTheme on route change
   useEffect(() => {
-    setHeaderTheme(null);
+    setHeaderTheme('light');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 

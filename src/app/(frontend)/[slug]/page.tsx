@@ -62,21 +62,21 @@ const videosData = [
   {
     brandName: 'CoolBrand 1',
     title: 'Promo Video #1',
-    src: '/video/v1/assets/2g5tJ8oxsy15AphfCJTM8EBdQraev2OgZ3zIbr6YTFc',
-    id: 'LaeaLHpLAXpXLOB01m0201NwSDbALTtQbW01kGVpIXHGa3I',
+    src: '/video/v1/assets/QF00Jf7uj1o00bx48OgywkTO5HvOOWIXkE022NCvtkl2Ew',
+    id: 'hwLnf8b02oEnoU01kY8L4DLuuxe6rqDjCGrksfIqj2UpE',
   },
   {
     brandName: 'CoolBrand 2',
     title: 'Promo Video #2',
-    src: '/video/v1/assets/9aLXpmwq3A013ElaDBJns2qF1Y5kHmxAUwEPseZ923HA',
-    id: '00pDGKVRzHZ5mxa00yyq7D00jspTOHnvuGVamPsys9GBCQ',
+    src: '/video/v1/assets/ItXCFiBKZDd1vXRUW33sfq52NMZzOlJTimSXFNCs5XU',
+    id: 'cjIzgMZRBgDA2XNtoBmZWz00qx01sFnrpt0100QeXimaZLE',
   },
-  {
-    brandName: 'CoolBrand 3',
-    title: 'Promo Video #3',
-    src: '/video/v1/assets/fBimU02lESFmgzsfsOHbWEHwk4omvQ0000h01WOnena8Hlo',
-    id: '6o01v900YFXEamsii02BCIhH4Zb2eaYRkKoS01VUf00p01ncw',
-  },
+  // {
+  //   brandName: 'CoolBrand 3',
+  //   title: 'Promo Video #3',
+  //   src: '/video/v1/assets/fBimU02lESFmgzsfsOHbWEHwk4omvQ0000h01WOnena8Hlo',
+  //   id: '6o01v900YFXEamsii02BCIhH4Zb2eaYRkKoS01VUf00p01ncw',
+  // },
 ];
 
 const rootPage = (

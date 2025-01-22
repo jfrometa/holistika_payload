@@ -21,8 +21,6 @@ import { mergeOpenGraph } from '@/utilities/mergeOpenGraph';
 // Import the client component separately
 import LayoutClient from './layout_client'; // This is the new file you'll create
 
-
-
 export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),
   openGraph: mergeOpenGraph(),
@@ -44,7 +42,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
       </head>
-      <body className="active-dark-mode">
+      <body className="active-light-mode">
         <Providers>
           <div className="min-h-screen flex flex-col">
             <AdminBar adminBarProps={{ preview: isEnabled }} />
