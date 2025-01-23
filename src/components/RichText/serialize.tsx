@@ -1,11 +1,16 @@
+import { DefaultNodeTypes, SerializedBlockNode } from '@payloadcms/richtext-lexical'
+import React, { Fragment, JSX } from 'react'
+
 import { BannerBlock } from '@/blocks/Banner/Component'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { CodeBlock, CodeBlockProps } from '@/blocks/Code/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
-import React, { Fragment, JSX } from 'react'
 import { CMSLink } from '@/components/Link'
-import { DefaultNodeTypes, SerializedBlockNode } from '@payloadcms/richtext-lexical'
 import type { BannerBlock as BannerBlockProps } from '@/payload-types'
+import type {
+  CallToActionBlock as CTABlockProps,
+  MediaBlock as MediaBlockProps,
+} from '@/payload-types'
 
 import {
   IS_BOLD,
@@ -16,10 +21,6 @@ import {
   IS_SUPERSCRIPT,
   IS_UNDERLINE,
 } from './nodeFormat'
-import type {
-  CallToActionBlock as CTABlockProps,
-  MediaBlock as MediaBlockProps,
-} from '@/payload-types'
 
 export type NodeTypes =
   | DefaultNodeTypes

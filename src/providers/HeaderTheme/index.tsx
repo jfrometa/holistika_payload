@@ -1,9 +1,8 @@
 'use client'
 
-import type { Theme } from '@/providers/Theme/types'
-
 import React, { createContext, useCallback, useContext, useState } from 'react'
 
+import type { Theme } from '@/providers/Theme/types'
 import canUseDOM from '@/utilities/canUseDOM'
 
 export interface ContextType {
@@ -13,7 +12,7 @@ export interface ContextType {
 
 const initialContext: ContextType = {
   headerTheme: undefined,
-  setHeaderTheme: () => null,
+  setHeaderTheme: () => 'light',
 }
 
 const HeaderThemeContext = createContext(initialContext)

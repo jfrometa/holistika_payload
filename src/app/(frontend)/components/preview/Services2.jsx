@@ -1,5 +1,5 @@
 import React from "react";
-
+import Image from "next/image";
 export default function Services2() {
   return (
     <div
@@ -38,7 +38,7 @@ export default function Services2() {
           <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 sal-animate">
             <div className="service service__style--1 bg-color-blackest radius text-center rbt-border h-100">
               <div className="icon">
-                <img
+                <Image
                   src="/assets/images/services/splash/4.png"
                   alt="doob services Images"
                 />
@@ -57,7 +57,7 @@ export default function Services2() {
           <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 sal-animate">
             <div className="service service__style--1 bg-color-blackest radius text-center rbt-border h-100">
               <div className="icon">
-                <img
+                <Image
                   src="/assets/images/services/splash/11.png"
                   alt="doob services Images"
                 />
@@ -77,7 +77,7 @@ export default function Services2() {
           <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 sal-animate">
             <div className="service service__style--1 bg-color-blackest radius text-center rbt-border h-100">
               <div className="icon">
-                <img
+                <Image
                   src="/assets/images/services/splash/6.png"
                   alt="doob services Images"
                 />
@@ -96,7 +96,7 @@ export default function Services2() {
           <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 sal-animate">
             <div className="service service__style--1 bg-color-blackest radius text-center rbt-border h-100">
               <div className="icon">
-                <img
+                <Image
                   src="/assets/images/services/splash/7.png"
                   alt="doob services Images"
                 />
@@ -114,7 +114,7 @@ export default function Services2() {
           <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 sal-animate">
             <div className="service service__style--1 bg-color-blackest radius text-center rbt-border h-100">
               <div className="icon">
-                <img
+                <Image
                   src="/assets/images/services/splash/12.png"
                   alt="doob services Images"
                 />
@@ -132,7 +132,7 @@ export default function Services2() {
           <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 sal-animate">
             <div className="service service__style--1 bg-color-blackest radius text-center rbt-border h-100">
               <div className="icon">
-                <img
+                <Image
                   src="/assets/images/services/splash/9.png"
                   alt="doob services Images"
                 />
@@ -151,7 +151,7 @@ export default function Services2() {
           <div className="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12 sal-animate">
             <div className="service service__style--1 bg-color-blackest radius text-center rbt-border h-100">
               <div className="icon">
-                <img
+                <Image
                   src="/assets/images/services/splash/10-large.png"
                   alt="doob services Images"
                 />

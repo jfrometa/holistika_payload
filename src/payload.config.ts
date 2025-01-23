@@ -1,10 +1,15 @@
 // storage-adapter-import-placeholder
-import { mongooseAdapter } from '@payloadcms/db-mongodb'; // database-adapter-import
-
-import sharp from 'sharp'; // sharp-import
 import path from 'path';
-import { buildConfig } from 'payload';
 import { fileURLToPath } from 'url';
+
+import { mongooseAdapter } from '@payloadcms/db-mongodb'; // database-adapter-import
+import { buildConfig } from 'payload';
+import sharp from 'sharp'; // sharp-import
+
+
+import { portfolioDetails } from '@/collections/Portfolio-Details';
+import { defaultLexical } from '@/fields/defaultLexical';
+
 import { Categories } from './collections/Categories';
 import { Media } from './collections/Media';
 import { Pages } from './collections/Pages';
@@ -13,9 +18,8 @@ import { Users } from './collections/Users';
 import { Footer } from './Footer/config';
 import { Header } from './Header/config';
 import { plugins } from './plugins';
-import { defaultLexical } from '@/fields/defaultLexical';
 import { getServerSideURL } from './utilities/getURL';
-import { portfolioDetails } from '@/collections/Portfolio-Details';
+
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);

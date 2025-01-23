@@ -1,5 +1,6 @@
-import RichText from '@/components/RichText'
 import React from 'react'
+
+import RichText from '@/components/RichText'
 
 import { Width } from '../Width'
 

@@ -1,25 +1,25 @@
 import './globals.css';
 import '@/scss/main.scss';
 
-import type { Metadata } from 'next';
+import { Analytics } from "@vercel/analytics/react"
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
+import type { Metadata } from 'next';
 import React from 'react';
+
+import Footer3 from '@/app/(frontend)/components/footers/Footer3';
 import { AdminBar } from '@/components/AdminBar';
 import { LivePreviewListener } from '@/components/LivePreviewListener';
+import { Footer } from '@/Footer/Component';
+import { Header } from '@/Header/Component';
 import { Providers } from '@/providers';
 import { InitTheme } from '@/providers/Theme/InitTheme';
-import { mergeOpenGraph } from '@/utilities/mergeOpenGraph';
+import { cn } from '@/utilities/cn';
 import { getServerSideURL } from '@/utilities/getURL';
+import { mergeOpenGraph } from '@/utilities/mergeOpenGraph';
 
 // Import the client component separately
 import LayoutClient from './layout_client'; // This is the new file you'll create
-import { Header } from '@/Header/Component';
-import { Footer } from '@/Footer/Component';
-
-import Footer3 from '@/app/(frontend)/components/footers/Footer3';
-import { cn } from '@/utilities/cn';
-import { Analytics } from "@vercel/analytics/react"
 
 export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),
@@ -42,7 +42,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
       </head>
-      <body className="active-dark-mode">
+      <body className="active-light-mode">
         <Providers>
           <div className="min-h-screen flex flex-col">
             <AdminBar adminBarProps={{ preview: isEnabled }} />

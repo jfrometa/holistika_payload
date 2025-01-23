@@ -1,18 +1,18 @@
 @charset "UTF-8";
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --color-primary: #059dff;
-  --color-primary-rgba: rgb(5, 157, 255);
-  --color-primary-rgba-2: rgba(5, 157, 255, 0.15);
-  --color-primary-alt: #059dff;
-  --color-primary-light: #059dff;
-  --color-primary-lightest: #059dff;
-  --color-secondary: #fb5343;
-  --color-tertiary: #6549d5;
-  --color-tertiary-alt: #6549d5;
-  --color-pink: #e33fa1;
-  --color-light-green: #36c6f0;
+  --color-primary: #ee4019;
+  --color-primary-rgba: rgb(238, 64, 35);
+  --color-primary-rgba-2: rgba(238, 64, 35, 0.15);
+  --color-primary-alt: #f36f50; /* +10% lightness */
+  --color-primary-light: #f78d75; /* +20% lightness */
+  --color-primary-lightest: #f9aaa0; /* +30% lightness */
+  --color-secondary: rgb(0, 170, 188);
+  --color-tertiary: rgb(34, 62, 75);
+  --color-tertiary-alt: rgb(34, 62, 75, 0.15);
+  --color-pink: rgb(0, 170, 188);
+  --color-light-green: rgb(238, 64, 35);
   --color-primary-darker: #011827;
   --color-tertiary-darker: #150b40;
   --color-secondary-darker: #190301;
@@ -8917,7 +8917,11 @@ xclip
   width: 500px;
   height: 500px;
   border-radius: 1000px;
-  background-image: linear-gradient(45deg, var(--color-primary), var(--color-light-green));
+  background-image: linear-gradient(
+    45deg,
+    var(--color-primary),
+    var(--color-light-green)
+  );
   opacity: 0.25;
   -webkit-filter: blur(100px);
   filter: blur(100px);
@@ -8945,7 +8949,11 @@ xclip
   width: 500px;
   height: 500px;
   border-radius: 1000px;
-  background-image: linear-gradient(45deg, var(--color-primary), var(--color-light-green));
+  background-image: linear-gradient(
+    45deg,
+    var(--color-primary),
+    var(--color-light-green)
+  );
   opacity: 0.2;
   filter: blur(100px);
   content: '';
@@ -9277,8 +9285,22 @@ xclip
   .rainbow-badge-card {
   margin-left: 10px;
 }
-.mainmenu-nav .mainmenu li.with-megamenu .rainbow-megamenu .wrapper .mega-menu-item li a:hover,
-.mainmenu-nav .mainmenu li.with-megamenu .rainbow-megamenu .wrapper .mega-menu-item li a.active {
+.mainmenu-nav
+  .mainmenu
+  li.with-megamenu
+  .rainbow-megamenu
+  .wrapper
+  .mega-menu-item
+  li
+  a:hover,
+.mainmenu-nav
+  .mainmenu
+  li.with-megamenu
+  .rainbow-megamenu
+  .wrapper
+  .mega-menu-item
+  li
+  a.active {
   color: var(--color-primary) !important;
   background: var(--color-darker);
 }
@@ -10490,19 +10512,34 @@ div.btn-default.rounded-player.sm-size {
 .service-wrapper > [class*='col']:nth-child(6) .service.service__style--1 .icon {
   color: var(--color-tertiary);
 }
-.service-wrapper > [class*='col']:nth-child(2) .service.service__style--1.icon-circle-style .icon {
+.service-wrapper
+  > [class*='col']:nth-child(2)
+  .service.service__style--1.icon-circle-style
+  .icon {
   background-color: var(--color-secondary-darker);
 }
-.service-wrapper > [class*='col']:nth-child(3) .service.service__style--1.icon-circle-style .icon {
+.service-wrapper
+  > [class*='col']:nth-child(3)
+  .service.service__style--1.icon-circle-style
+  .icon {
   background-color: var(--color-tertiary-darker);
 }
-.service-wrapper > [class*='col']:nth-child(4) .service.service__style--1.icon-circle-style .icon {
+.service-wrapper
+  > [class*='col']:nth-child(4)
+  .service.service__style--1.icon-circle-style
+  .icon {
   background-color: var(--color-pink-darker);
 }
-.service-wrapper > [class*='col']:nth-child(5) .service.service__style--1.icon-circle-style .icon {
+.service-wrapper
+  > [class*='col']:nth-child(5)
+  .service.service__style--1.icon-circle-style
+  .icon {
   background-color: var(--color-primary-darker);
 }
-.service-wrapper > [class*='col']:nth-child(6) .service.service__style--1.icon-circle-style .icon {
+.service-wrapper
+  > [class*='col']:nth-child(6)
+  .service.service__style--1.icon-circle-style
+  .icon {
   background-color: var(--color-tertiary-darker);
 }
 .service-wrapper > [class*='col']:last-child .with-working-process .line {
@@ -10846,7 +10883,10 @@ div.btn-default.rounded-player.sm-size {
   border-bottom: 2px solid var(--color-border);
   padding: 0px 20px 10px 0;
 }
-.rainbow-accordion-style.rainbow-accordion-02 .card .card-header .accordion-button::after {
+.rainbow-accordion-style.rainbow-accordion-02
+  .card
+  .card-header
+  .accordion-button::after {
   display: none;
 }
 .rainbow-accordion-style.rainbow-accordion-02 .card .card-body {
@@ -12320,7 +12360,11 @@ Timeline Area
   width: 500px;
   height: 500px;
   border-radius: 1000px;
-  background-image: linear-gradient(45deg, var(--color-primary), var(--color-light-green));
+  background-image: linear-gradient(
+    45deg,
+    var(--color-primary),
+    var(--color-light-green)
+  );
   opacity: 0.2;
   filter: blur(100px);
   content: '';
@@ -13230,7 +13274,12 @@ Timeline Area
     padding: 0;
   }
 }
-.advance-tab-button-1 .tab-button-list .tab-button.tab-with-icon .tab .content .description {
+.advance-tab-button-1
+  .tab-button-list
+  .tab-button.tab-with-icon
+  .tab
+  .content
+  .description {
   font-size: var(--font-size-b3);
 }
 .advance-tab-button-1 .tab-button-list .tab-button.bg-color-white-off::before {
@@ -15550,7 +15599,11 @@ iframe {
   align-items: center;
   padding: 10px 0;
 }
-.rainbow-portfolio-details .content-left .single-list-wrapper .single-list + .single-list {
+.rainbow-portfolio-details
+  .content-left
+  .single-list-wrapper
+  .single-list
+  + .single-list {
   border-top: 1px solid var(--color-border);
 }
 .rainbow-portfolio-details .content-left .single-list-wrapper .single-list label {
@@ -15808,7 +15861,13 @@ body.active-light-mode .breadcrumb-inner ul.page-list li.rainbow-breadcrumb-item
 body.active-light-mode .slider-style-1.bg-transparent .inner .subtitle,
 body.active-light-mode .slider-style-1.bg-transparent .inner .description,
 body.active-light-mode .popup-mobile-menu .mainmenu li a,
-body.active-light-mode .footer-style-default .footer-top .rainbow-footer-widget .footer-link li a,
+body.active-light-mode
+  .footer-style-default
+  .footer-top
+  .rainbow-footer-widget
+  .footer-link
+  li
+  a,
 body.active-light-mode .footer-style-default .footer-top .rainbow-footer-widget .subtitle,
 body.active-light-mode .rainbow-call-to-action.style-8 .content .subtitle,
 body.active-light-mode .rainbow-newsletter-default .newsletter-section-title .description,
@@ -15824,7 +15883,11 @@ body.active-light-mode .copyright-style-one .copyright-text a {
 body.active-light-mode .header-transparent.sticky .mainmenu-nav .mainmenu > li > a,
 body.active-light-mode .clltoaction-style-default.style-7 .content .subtitle,
 body.active-light-mode .copyright-style-one .ft-menu li a,
-body.active-light-mode .footer-style-default .footer-top .rainbow-footer-widget .text-big {
+body.active-light-mode
+  .footer-style-default
+  .footer-top
+  .rainbow-footer-widget
+  .text-big {
   color: #65676b;
 }
 body.active-light-mode .form-group input,
@@ -15943,10 +16006,16 @@ body.active-light-mode .header-transparent-with-topbar .header-top-bar,
 body.active-light-mode .header-transparent-with-topbar .header-default {
   background: transparent;
 }
-body.active-light-mode [class*='col']:nth-child(2) .counter-style-2.color-variation .count-number {
+body.active-light-mode
+  [class*='col']:nth-child(2)
+  .counter-style-2.color-variation
+  .count-number {
   background-color: #f9f5f5;
 }
-body.active-light-mode [class*='col']:nth-child(3) .counter-style-2.color-variation .count-number {
+body.active-light-mode
+  [class*='col']:nth-child(3)
+  .counter-style-2.color-variation
+  .count-number {
   background-color: #eef2f3;
 }
 body.active-light-mode
@@ -16038,7 +16107,10 @@ body.active-light-mode .list-icon li .icon,
 body.active-light-mode .counter-style-2 .count-number,
 body.active-light-mode .rainbow-pricing.style-2 .pricing-table-inner,
 body.active-light-mode .rainbow-default-tab .rainbow-tab-content,
-body.active-light-mode .rainbow-default-tab .tab-button .react-tabs__tab.react-tabs__tab--selected,
+body.active-light-mode
+  .rainbow-default-tab
+  .tab-button
+  .react-tabs__tab.react-tabs__tab--selected,
 body.active-light-mode .advance-tab-button-1 .tab-button-list .tab-button::before,
 body.active-light-mode .advance-pricing .pricing-left,
 body.active-light-mode .rainbow-pricing.style-5 .pricing-table-inner,
@@ -16046,7 +16118,12 @@ body.active-light-mode .about-style-5 .about-wrapper,
 body.active-light-mode .rainbow-sub-badge,
 body.active-light-mode .about-style-6 .wrapper::after,
 body.active-light-mode .box-grid-layout .rainbow-card,
-body.active-light-mode .mainmenu-nav .mainmenu li.with-megamenu .rainbow-megamenu .wrapper,
+body.active-light-mode
+  .mainmenu-nav
+  .mainmenu
+  li.with-megamenu
+  .rainbow-megamenu
+  .wrapper,
 body.active-light-mode .social-default li a,
 body.active-light-mode .clltoaction-style-default.style-4 .content-wrapper,
 body.active-light-mode .rainbow-address,
@@ -16191,8 +16268,17 @@ body.active-light-mode .card-box.card-style-1 .inner .content .description {
 body.active-light-mode .clltoaction-style-default.style-5 .content .subtitle,
 body.active-light-mode .rainbow-accordion-style .card .card-header button,
 body.active-light-mode .counter-style-2 .count-number,
-body.active-light-mode .rainbow-pricing .pricing-table-inner .pricing-header .pricing span.price,
-body.active-light-mode .rainbow-pricing.active .pricing-table-inner .pricing-header .title,
+body.active-light-mode
+  .rainbow-pricing
+  .pricing-table-inner
+  .pricing-header
+  .pricing
+  span.price,
+body.active-light-mode
+  .rainbow-pricing.active
+  .pricing-table-inner
+  .pricing-header
+  .title,
 body.active-light-mode
   .rainbow-pricing.active
   .pricing-table-inner
@@ -16205,9 +16291,19 @@ body.active-light-mode
   .pricing-header
   .pricing
   span.subtitle,
-body.active-light-mode .rainbow-pricing .pricing-table-inner .pricing-header .pricing span.subtitle,
+body.active-light-mode
+  .rainbow-pricing
+  .pricing-table-inner
+  .pricing-header
+  .pricing
+  span.subtitle,
 body.active-light-mode .rainbow-default-tab .tab-button .rainbow-tab-button button,
-body.active-light-mode .rainbow-pricing .pricing-table-inner .pricing-header .pricing span.currency,
+body.active-light-mode
+  .rainbow-pricing
+  .pricing-table-inner
+  .pricing-header
+  .pricing
+  span.currency,
 body.active-light-mode .card-style-default.testimonial-style-one .inner .thumbnail::after,
 body.active-light-mode .clltoaction-style-default.style-6 .content .title,
 body.active-light-mode .rainbow-splite-style .split-inner .title,
@@ -16280,7 +16376,10 @@ body.active-light-mode .slider-area.bg-transparent .inner button.btn-default.btn
 }
 
 body.active-light-mode .slider-area.bg-transparent .inner a.btn-default.btn-border:hover,
-body.active-light-mode .slider-area.bg-transparent .inner button.btn-default.btn-border:hover {
+body.active-light-mode
+  .slider-area.bg-transparent
+  .inner
+  button.btn-default.btn-border:hover {
   color: var(--color-white);
 }
 

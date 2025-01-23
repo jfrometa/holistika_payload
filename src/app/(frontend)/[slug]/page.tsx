@@ -1,34 +1,25 @@
+import '@/scss/main.scss';
 
 import type { Metadata } from 'next';
-
-import { PayloadRedirects } from '@/components/PayloadRedirects';
-import configPromise from '@payload-config';
-import { getPayload } from 'payload';
 import { draftMode } from 'next/headers';
-import React, { cache } from 'react';
-import { homeStatic } from '@/endpoints/seed/home-static';
-
-import type { Page as PageType } from '@/payload-types';
-
+import { getPayload } from 'payload';
+import React, { cache, Suspense } from 'react';
+ 
 import { RenderBlocks } from '@/blocks/RenderBlocks';
+import { PayloadRedirects } from '@/components/PayloadRedirects';
 import { RenderHero } from '@/heros/RenderHero';
-import { generateMeta } from '@/utilities/generateMeta';
-import PageClient from './page.client';
-
+import type { Page as PageType } from '@/payload-types';
 import Blogs from '@/ui/common/Blogs';
-import Footer3 from '@/ui/footers/Footer3';
-import Header2 from '@/ui/headers/Header2';
-
 import About from '@/ui/homes/index-international-consulting/About';
 import Facts from '@/ui/homes/index-international-consulting/Facts';
-import HeroWithVideoSlider from '@/ui/homes/index-international-consulting/HeroWithVideoSlider';
-// import BackgroundVideo from 'next-video/background-video';
-// import VideoSliderBackground from '@/components/video/background_video_slider';
-import VideoOverlay from '@/ui/video/video_overlay';
 import Portfolio from '@/ui/homes/index-international-consulting/Portfolio';
-import Pricing from '@/ui/common/Pricing3';
 import Service from '@/ui/homes/index-international-consulting/Service';
-import Topbar from '@/ui/headers/Topbar';
+// import VideoOverlay from '@/ui/video/video_overlay';
+import { generateMeta } from '@/utilities/generateMeta';
+import configPromise from '@payload-config';
+
+import PageClient from './page.client';
+import VideoOverlay from '../components/video/background_video_slider';
 
 
 interface PageParams {
@@ -67,6 +58,27 @@ type Args = {
   }>;
 };
 
+const videosData = [
+  {
+    brandName: 'CoolBrand 1',
+    title: 'Promo Video #1',
+    src: '/video/v1/assets/QF00Jf7uj1o00bx48OgywkTO5HvOOWIXkE022NCvtkl2Ew',
+    id: 'hwLnf8b02oEnoU01kY8L4DLuuxe6rqDjCGrksfIqj2UpE',
+  },
+  {
+    brandName: 'CoolBrand 2',
+    title: 'Promo Video #2',
+    src: '/video/v1/assets/ItXCFiBKZDd1vXRUW33sfq52NMZzOlJTimSXFNCs5XU',
+    id: 'cjIzgMZRBgDA2XNtoBmZWz00qx01sFnrpt0100QeXimaZLE',
+  },
+  // {
+  //   brandName: 'CoolBrand 3',
+  //   title: 'Promo Video #3',
+  //   src: '/video/v1/assets/fBimU02lESFmgzsfsOHbWEHwk4omvQ0000h01WOnena8Hlo',
+  //   id: '6o01v900YFXEamsii02BCIhH4Zb2eaYRkKoS01VUf00p01ncw',
+  // },
+];
+
 const rootPage = (
   <>
     <div className="splash-wrapper scrollSpyLinks">
@@ -81,8 +93,8 @@ const rootPage = (
         <div className="rainbow-gradient-circle theme-pink"></div>
       </div>
 
-      <div className="relative w-full h-screen overflow-hidden">
-        <VideoOverlay />
+      <div className="relative w-full h-screen ">
+           <VideoOverlay videos={videosData} />
       </div>
 
       <Service />
@@ -121,7 +133,8 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   // // Remove this code once your website is seeded
   if (page && slug === 'home') {
-    return rootPage;
+    return  rootPage 
+    
   }
 
   if (page && slug === 'portfolio') {
@@ -131,8 +144,6 @@ export default async function Page({ params: paramsPromise }: Args) {
       </div>
     );
   }
-
-  // console.log(`slug: ${slug}  isPage ${!page}`);
 
   if (!page) {
     return <PayloadRedirects url={url} />;

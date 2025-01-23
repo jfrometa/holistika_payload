@@ -1,8 +1,9 @@
+import Image from "next/image";
 import { useEffect, useRef, useState, useCallback } from 'react';
-import type { VideoQualityLevel, VideoAnalytics } from './video_utility';
-import { VideoAnalyticsTracker, NetworkSpeedTest, VideoPreloader } from './video_utility';
 import React from 'react';
 
+import type { VideoQualityLevel, VideoAnalytics } from './video_utility';
+import { VideoAnalyticsTracker, NetworkSpeedTest, VideoPreloader } from './video_utility';
 interface VideoBackgroundProps {
   videoSources: VideoQualityLevel[];
   videoPoster: string;
@@ -153,7 +154,7 @@ export function VideoBackground({ videoSources, videoPoster, onAnalytics }: Vide
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url(${videoPoster})` }}
-        role="img"
+        role="Image"
         aria-label="Background image"
       />
     );
@@ -171,7 +172,7 @@ export function VideoBackground({ videoSources, videoPoster, onAnalytics }: Vide
         poster={videoPoster}
       >
         <source src={currentQuality.src} type="video/mp4" />
-        <img
+        <Image
           src={videoPoster}
           alt="Fallback background"
           className="absolute inset-0 w-full h-full object-cover"

@@ -2,8 +2,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import React from "react";
-import Comment from "./Comment";
+import React from "react"; 
+
 const links = [
   "Corporate",
   "Agency",
@@ -57,6 +57,16 @@ export default function BlogDetails({ blog }) {
         <div className="container">
           <div className="row">
             <div className="col-lg-8 offset-lg-2">
+            <div className="category-meta">
+                  <span className="text">Tags:</span>
+                  <div className="tagcloud">
+                    {links.map((link, index) => (
+                      <Link href={`/blog-grid/tag/${link}`} key={index}>
+                        {link}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
               <div className="content">
                 <p>
                   Lorem Ipsum is simply dummy text of the printing and
@@ -116,18 +126,9 @@ export default function BlogDetails({ blog }) {
                   combined with a handful of model sentence structures, to
                   generate Lorem Ipsum which looks reasonable.
                 </p>
-                <div className="category-meta">
-                  <span className="text">Tags:</span>
-                  <div className="tagcloud">
-                    {links.map((link, index) => (
-                      <Link href={`/blog-grid/tag/${link}`} key={index}>
-                        {link}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
+
                 {/* Start Contact Form Area  */}
-                <div className="rainbow-comment-form pt--60">
+                {/* <div className="rainbow-comment-form pt--60">
                   <div className="inner">
                     <div className="section-title">
                       <span className="subtitle">Have a Comment?</span>
@@ -135,7 +136,7 @@ export default function BlogDetails({ blog }) {
                     </div>
                     <Comment url="" id={blog.id} title={blog.title} />
                   </div>
-                </div>
+                </div> */}
                 {/* End Contact Form Area  */}
               </div>
             </div>

@@ -4,16 +4,18 @@ import Header4 from '@/ui/headers/Header4';
 import Topbar from '@/ui/headers/Topbar';
 import { allBlogs } from '@/data/blogs';
 import React from 'react';
-// export const metadata = {
-//   title: 'Blog Details || Doob Business and Consulting React Nextjs Bootstrap5 Template',
-//   description: 'Doob Business and Consulting React Nextjs Bootstrap5 Template',
-// };
 
-export default function page({ params }) {
-  const blog = allBlogs.filter(elm => elm.id == params.id)[0] || allBlogs[0];
+
+export default async function page({ params }) {
+   // Ensure params is awaited properly
+   const { id } = await params;
+
+   // Safely find the blog
+   const blog = allBlogs.find(elm => elm.id == id) || allBlogs[0];
+  
   return (
     <>
-      <Topbar />
+      {/* <Topbar /> */}
       <Header4 />
 
       <div>

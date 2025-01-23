@@ -348,7 +348,7 @@ async function fetchFileByURL(url: string): Promise<File> {
   const data = await res.arrayBuffer()
 
   return {
-    name: url.split('/').pop() || `file-${Date.now()}`,
+    name: url.split('/').pop() || `file-${performance.now()}`,
     data: Buffer.from(data),
     mimetype: `image/${url.split('.').pop()}`,
     size: data.byteLength,

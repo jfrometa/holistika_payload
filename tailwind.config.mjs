@@ -22,6 +22,10 @@ export default {
     'bg-success/30',
     'border-warning',
     'bg-warning/30',
+    'animate-shimmer',
+    'animate-progress',
+    'bg-gray-700/50',
+    'bg-gray-600/50',
   ],
   theme: {
     container: {
@@ -46,6 +50,9 @@ export default {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'shimmer': 'shimmer 2s infinite linear',
+        'progress': 'progress-bar 2s ease-in-out infinite',
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -102,6 +109,25 @@ export default {
         'accordion-up': {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' },
+        },
+        shimmer: {
+          '0%': {
+            transform: 'translateX(-100%)',
+          },
+          '100%': {
+            transform: 'translateX(100%)',
+          },
+        },
+        'progress-bar': {
+          '0%': {
+            transform: 'translateX(-100%)',
+          },
+          '50%': {
+            transform: 'translateX(-30%)',
+          },
+          '100%': {
+            transform: 'translateX(100%)',
+          },
         },
       },
       typography: ({ theme }) => ({

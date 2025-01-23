@@ -1,12 +1,12 @@
 'use client'
 
+import { SearchIcon } from 'lucide-react'
+import Link from 'next/link'
 import React from 'react'
 
+import { CMSLink } from '@/components/Link'
 import type { Header as HeaderType } from '@/payload-types'
 
-import { CMSLink } from '@/components/Link'
-import Link from 'next/link'
-import { SearchIcon } from 'lucide-react'
 
 export const HeaderNav: React.FC<{ header: HeaderType }> = ({ header }) => {
   const navItems = header?.navItems || []
