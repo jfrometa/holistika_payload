@@ -20,7 +20,7 @@ import { Header } from './Header/config';
 import { plugins } from './plugins';
 import { getServerSideURL } from './utilities/getURL';
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
-import nodemailer from 'nodemailer'
+// import nodemailer from 'nodemailer'
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -70,7 +70,7 @@ export default buildConfig({
     // Nodemailer transportOptions
     transportOptions: {
       host: process.env.SMTP_HOST,
-      port: 587,
+      port: 465,// 587,
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
