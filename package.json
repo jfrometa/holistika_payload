@@ -5,9 +5,9 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "build": "cross-env NODE_OPTIONS=--no-deprecation next build",
+    "build": "cross-env NODE_OPTIONS='--max-old-space-size=4096' next build",
+    "dev": "cross-env NODE_OPTIONS='--max-old-space-size=4096' next dev & npx next-video sync -w",
     "postbuild": "next-sitemap --config next-sitemap.config.cjs",
-    "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev & npx next-video sync -w",
     "dev:prod": "cross-env NODE_OPTIONS=--no-deprecation rm -rf .next && pnpm build && pnpm start",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@payloadcms/db-mongodb": "latest",
+    "@payloadcms/email-nodemailer": "3.17.1",
     "@payloadcms/live-preview-react": "latest",
     "@payloadcms/next": "latest",
     "@payloadcms/payload-cloud": "latest",
@@ -52,6 +53,7 @@
     "next": "15.1.2",
     "next-sitemap": "^4.2.3",
     "next-video": "latest",
+    "nodemailer": "^6.10.0",
     "payload": "latest",
     "payload-admin-bar": "^1.0.6",
     "photoswipe": "^5.4.4",
