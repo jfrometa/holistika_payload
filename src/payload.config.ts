@@ -67,7 +67,6 @@ export default buildConfig({
   email: nodemailerAdapter({
     defaultFromAddress: 'info@holistika.co',
     defaultFromName: 'Maria Candela',
-    // Nodemailer transportOptions
     transportOptions: {
       host: process.env.SMTP_HOST,
       port: 465,// 587,
