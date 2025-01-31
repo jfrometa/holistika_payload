@@ -62,14 +62,14 @@ const videosData = [
   {
     brandName: 'CoolBrand 1',
     title: 'Promo Video #1',
-    src: '/video/v1/assets/QF00Jf7uj1o00bx48OgywkTO5HvOOWIXkE022NCvtkl2Ew',
-    id: 'hwLnf8b02oEnoU01kY8L4DLuuxe6rqDjCGrksfIqj2UpE',
+    src: '/video/v1/assets/Sz7giTfcrVNbberZ02iaJTZewt6rDqgQ1xq4vy02l2kS8',
+    id: 'U8L2EAK9DxmTRAhnBtQ1CDc01utfH1ajhXzJHFM7PYxg',
   },
   {
     brandName: 'CoolBrand 2',
     title: 'Promo Video #2',
-    src: '/video/v1/assets/ItXCFiBKZDd1vXRUW33sfq52NMZzOlJTimSXFNCs5XU',
-    id: 'cjIzgMZRBgDA2XNtoBmZWz00qx01sFnrpt0100QeXimaZLE',
+    src: '/video/v1/assets/kvzBfxqk01adpPKPfLyBx3aK1exMF6S01LmHa02rvKl4j00',
+    id: 'pYZxoh6G8fE00PF9tyxilMzsETV7gKFfLHt6EBnDhDSM',
   },
   // {
   //   brandName: 'CoolBrand 3',
