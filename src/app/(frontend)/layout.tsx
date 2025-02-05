@@ -17,6 +17,7 @@ import { InitTheme } from '@/providers/Theme/InitTheme';
 import { cn } from '@/utilities/cn';
 import { getServerSideURL } from '@/utilities/getURL';
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 // Import the client component separately
 import LayoutClient from './layout_client'; // This is the new file you'll create
@@ -54,6 +55,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               <main className="flex-grow splash-wrapper scrollSpyLinks">{children}</main>
             </LayoutClient>
             <Footer3 />
+            <SpeedInsights />
           </div>
         </Providers>
       </body>
